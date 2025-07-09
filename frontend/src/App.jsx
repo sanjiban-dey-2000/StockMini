@@ -2,6 +2,7 @@ import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import AppLayout from './components/layout/AppLayout'
 import LandingPage from './pages/LandingPage'
+import Feature from './pages/Feature'
 
 const App = () => {
 
@@ -14,6 +15,10 @@ const App = () => {
           path:'/',
           element: <LandingPage/>,
         },
+        {
+          path:'/features',
+          element: <Feature/>
+        }
       ]
     }
   ])
