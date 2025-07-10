@@ -6,6 +6,7 @@ import Feature from './pages/Feature'
 import Services from './pages/Services'
 import Testimonials from './pages/Testimonials'
 import ErrorPage from './pages/ErrorPage'
+import Signup from './pages/Signup'
 
 const App = () => {
 
@@ -30,6 +31,10 @@ const App = () => {
         {
           path:'/testimonials',
           element: <Testimonials/>
+        },
+        {
+          path:'/signup',
+          element: <Signup/>
         }
       ]
     }
