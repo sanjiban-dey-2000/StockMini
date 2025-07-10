@@ -8,6 +8,8 @@ import Testimonials from './pages/Testimonials'
 import ErrorPage from './pages/ErrorPage'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
+import DashboardLayout from './components/layout/DashboardLayout'
+import DashboardHome from './pages/DashboardHome'
 
 const App = () => {
 
@@ -41,6 +43,20 @@ const App = () => {
           path:'/login',
           element: <Login/>
         }
+      ]
+    },
+    {
+      path:"/dashboard",
+      element: <DashboardLayout/>,
+      errorElement: <ErrorPage/>,
+      children:[
+        {
+          index:true,
+          element: <DashboardHome/>
+        },
+        {
+
+        },
       ]
     }
   ])
