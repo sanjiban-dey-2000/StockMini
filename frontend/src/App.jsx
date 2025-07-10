@@ -7,6 +7,7 @@ import Services from './pages/Services'
 import Testimonials from './pages/Testimonials'
 import ErrorPage from './pages/ErrorPage'
 import Signup from './pages/Signup'
+import Login from './pages/Login'
 
 const App = () => {
 
@@ -36,6 +37,10 @@ const App = () => {
           path:'/signup',
           element: <Signup/>
         },
+        {
+          path:'/login',
+          element: <Login/>
+        }
       ]
     }
   ])

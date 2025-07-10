@@ -40,6 +40,7 @@ async function handleUserRegistration(req,res){
         });
 
         res.status(201).json({
+            user:user,
             message:"User registration is successful",
         });
 
@@ -87,6 +88,7 @@ async function handleUserLogin(req,res){
         });
 
         res.status(200).json({
+            user:user,
             message:"User has logged in successfully",
         });
     }catch(error){
