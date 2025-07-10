@@ -1,5 +1,6 @@
 const User=require('../models/userModel');
 const JWT=require('jsonwebtoken');
+const bcrypt=require('bcrypt');
 
 async function handleUserRegistration(req,res){
     try{
@@ -50,6 +51,53 @@ async function handleUserRegistration(req,res){
     }
 }
 
+async function handleUserLogin(req,res){
+    try{
+        const {email,password}=req.body;
+
+        if(!email||!password){
+            return res.status(401).json({
+                message:"Please provide all the fields",
+            });
+        }
+
+        const user=await User.findOne({email});
+        if(!user){
+            return res.status(404).json({
+                message:"Email or password is incorrect",
+            });
+        }
+
+        const comparePassword=bcrypt.compare(password,user.password);
+
+        if(!comparePassword){
+            return res.status(401).json({
+                message:"Incorrect password provided",
+            });
+        }
+
+        const token=JWT.sign({userId:user._id},process.env.JWT_SECRET_KEY,{
+            expiresIn:"7d",
+        });
+
+        res.cookie('jwt',token,{
+            maxAge:7*24*60*60*1000,
+            httpOnly:true,
+            sameSite:"strict",
+        });
+
+        res.status(200).json({
+            message:"User has logged in successfully",
+        });
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            message:"Error in login route",
+        });
+    }
+}
+
 module.exports={
     handleUserRegistration,
+    handleUserLogin,
 }
