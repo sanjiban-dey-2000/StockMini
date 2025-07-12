@@ -7,9 +7,15 @@ import {
   FiDollarSign,
   FiUsers,
 } from "react-icons/fi";
+import { addCategory } from "../services/axiosInstance";
+import toast from "react-hot-toast";
 
 const DashboardHome = () => {
   const [activeForm, setActiveForm] = useState(null);
+  const [category, setCategory] = useState({
+    categoryName: "",
+    image: null,
+  });
 
   const cards = [
     {
@@ -50,13 +56,43 @@ const DashboardHome = () => {
     },
   ];
 
+  const handleCategoryFormChange = (e) => {
+    const { name, value, files } = e.target;
+    setCategory({ ...category, [name]: files ? files[0] : value });
+  };
+
+  const postCategoryData = async (formData) => {
+    try {
+      const res = await addCategory(formData);
+      console.log(res.data);
+      toast.success(res.data.message);
+    } catch (error) {
+      console.log(error.message);
+      toast.error(res.data.message);
+    }
+  };
+
+  const handleCategorySubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("categoryName", category.categoryName);
+    formData.append("image", category.image);
+    postCategoryData(formData);
+    setCategory({
+      categoryName: "",
+      image: null,
+    });
+  };
+
   const handleToggle = (form) => {
     setActiveForm(activeForm === form ? null : form);
   };
 
   return (
     <div className="lg:ml-[0px] p-6 mt-16 lg:mt-8 min-h-screen bg-gray-50">
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">Dashboard Overview</h1>
+      <h1 className="text-4xl font-bold mb-8 text-gray-800">
+        Dashboard Overview
+      </h1>
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-10">
@@ -66,8 +102,12 @@ const DashboardHome = () => {
             className={`flex justify-between items-center p-6 rounded-2xl shadow-md ${card.color}`}
           >
             <div>
-              <h2 className="text-2xl font-semibold text-gray-800">{card.title}</h2>
-              <p className="text-3xl font-bold mt-1 text-gray-700">{card.value}</p>
+              <h2 className="text-2xl font-semibold text-gray-800">
+                {card.title}
+              </h2>
+              <p className="text-3xl font-bold mt-1 text-gray-700">
+                {card.value}
+              </p>
             </div>
             <div>{card.icon}</div>
           </div>
@@ -134,10 +174,23 @@ const DashboardHome = () => {
       {activeForm === "category" && (
         <div className="bg-white p-6 rounded-xl shadow-md mb-6">
           <h2 className="text-2xl font-semibold mb-4">Add New Category</h2>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleCategorySubmit}>
             <input
               type="text"
               placeholder="Category Name"
+              id="categoryName"
+              name="categoryName"
+              value={category.categoryName}
+              onChange={handleCategoryFormChange}
+              className="w-full px-4 py-2 border rounded"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              placeholder="Upload the image"
+              id="image"
+              name="image"
+              onChange={handleCategoryFormChange}
               className="w-full px-4 py-2 border rounded"
             />
             <button

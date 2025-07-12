@@ -12,3 +12,11 @@ export const signup=async(data)=>{
 export const login=async(data)=>{
     return await api.post('/user/login',data);
 }
+
+export const addCategory=async(formData)=>{
+    return await api.post('/category/add-category',formData,{
+        headers:{
+            "Content-Type": "multipart/form-data",
+        }
+    });
+};
