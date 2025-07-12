@@ -2,8 +2,12 @@ const express=require('express');
 const dotenv=require('dotenv');
 dotenv.config();
 const cors=require('cors');
+const path=require('path');
+const cookieParser=require('cookie-parser');
 const {connect}=require('./lib/dbConnect');
 const userRouter=require('./routes/authRoutes');
+const categoryRouter=require('./routes/categoryRoutes');
+
 
 
 const app=express();
@@ -24,9 +28,12 @@ app.use(cors({
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(cookieParser());
+app.use('/assets',express.static(path.resolve('public/assets')));
 
 
 app.use('/api/user',userRouter);
+app.use('/api/category',categoryRouter);
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port no ${PORT}`);

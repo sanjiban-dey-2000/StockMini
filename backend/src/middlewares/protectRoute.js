@@ -1,7 +1,7 @@
 const jwt=require('jsonwebtoken');
 const User=require('../models/userModel');
 
-export const protectRoute=async(req,res,next)=>{
+const protectRoute=async(req,res,next)=>{
     try{
         const token=req.cookies.jwt;
         if(!token){
@@ -36,3 +36,7 @@ export const protectRoute=async(req,res,next)=>{
         });
     }
 }
+
+module.exports={
+    protectRoute,
+};
