@@ -31,7 +31,7 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <nav
-        className={`bg-gradient-to-br from-black via-black to-purple-700 shadow-md border-r border-gray-200 h-screen fixed top-0 left-0 z-40 w-[250px] py-14 px-4 overflow-auto transform transition-transform duration-300 ease-in-out
+        className={`bg-gradient-to-br from-black via-black to-purple-700 shadow-md border-r border-gray-200 min-h-screen fixed top-0 left-0 z-40 w-[250px] py-14 px-4 overflow-auto transform transition-transform duration-300 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 lg:relative lg:z-0`}
       >
         <ul>

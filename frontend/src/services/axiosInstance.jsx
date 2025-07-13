@@ -20,3 +20,11 @@ export const addCategory=async(formData)=>{
         }
     });
 };
+
+export const addProduct=async(formData)=>{
+    return await api.post('/product/add-product',formData);
+};
+
+export const addSupplier=async(data)=>{
+    return await api.post('/supplier/add-supplier',data);
+};

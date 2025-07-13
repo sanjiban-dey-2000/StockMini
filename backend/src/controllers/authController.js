@@ -69,7 +69,7 @@ async function handleUserLogin(req,res){
             });
         }
 
-        const comparePassword=bcrypt.compare(password,user.password);
+        const comparePassword=await bcrypt.compare(password,user.password);
 
         if(!comparePassword){
             return res.status(401).json({
@@ -81,12 +81,12 @@ async function handleUserLogin(req,res){
             expiresIn:"7d",
         });
 
-        res.cookie('jwt',token,{
-            maxAge:7*24*60*60*1000,
-            httpOnly:true,
-            sameSite:"strict",
+        res.cookie("jwt", token, {
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            httpOnly: true,
+            sameSite: "strict",
+            secure: false, // true in production with HTTPS
         });
-
         res.status(200).json({
             user:user,
             message:"User has logged in successfully",

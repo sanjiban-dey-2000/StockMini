@@ -7,7 +7,7 @@ import {
   FiDollarSign,
   FiUsers,
 } from "react-icons/fi";
-import { addCategory } from "../services/axiosInstance";
+import { addCategory, addProduct } from "../services/axiosInstance";
 import toast from "react-hot-toast";
 
 const DashboardHome = () => {
@@ -15,6 +15,16 @@ const DashboardHome = () => {
   const [category, setCategory] = useState({
     categoryName: "",
     image: null,
+  });
+
+  const [product, setProduct] = useState({
+    productName: "",
+    categoryName: "",
+    description: "",
+    price: "",
+    quantity: "",
+    image: null,
+    status: "",
   });
 
   const cards = [
@@ -84,6 +94,52 @@ const DashboardHome = () => {
     });
   };
 
+  const handleProductFormChange = (e) => {
+    const { name, value, files } = e.target;
+    setProduct({ ...product, [name]: files ? files[0] : value });
+  };
+
+  const postProductData = async (formData) => {
+    try {
+      const res = await addProduct(formData);
+      console.log(res.data.message);
+      toast.success(res.data.message);
+    } catch (error) {
+      console.log(error.message);
+      toast.error("Something occures. Please try again!!");
+    }
+  };
+
+  const handleProductSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("productName", product.productName);
+    formData.append("categoryName", product.categoryName);
+    formData.append("description", product.description);
+    formData.append("price", product.price);
+    formData.append("quantity", product.quantity);
+    formData.append("status", product.status);
+
+    // Validate before appending image
+    if (product.image) {
+      formData.append("image", product.image); // name should match multer key: "image"
+    } else {
+      toast.error("Please upload an image");
+      return;
+    }
+
+    postProductData(formData);
+    setProduct({
+      productName: "",
+      categoryName: "",
+      description: "",
+      price: "",
+      quantity: "",
+      image: null,
+      status: "",
+    });
+  };
+
   const handleToggle = (form) => {
     setActiveForm(activeForm === form ? null : form);
   };
@@ -140,27 +196,73 @@ const DashboardHome = () => {
       {activeForm === "product" && (
         <div className="bg-white p-6 rounded-xl shadow-md mb-6">
           <h2 className="text-2xl font-semibold mb-4">Add New Product</h2>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleProductSubmit}>
             <input
               type="text"
+              id="productName"
+              name="productName"
+              value={product.productName}
+              onChange={handleProductFormChange}
               placeholder="Product Name"
+              className="w-full px-4 py-2 border rounded"
+            />
+            <input
+              type="text"
+              id="categoryName"
+              name="categoryName"
+              value={product.categoryName}
+              onChange={handleProductFormChange}
+              placeholder="Category Name"
+              className="w-full px-4 py-2 border rounded"
+            />
+            <textarea
+              type="text"
+              rows="2"
+              id="description"
+              name="description"
+              value={product.description}
+              onChange={handleProductFormChange}
+              placeholder="Description"
               className="w-full px-4 py-2 border rounded"
             />
             <input
               type="number"
               placeholder="Price"
+              id="price"
+              name="price"
+              value={product.price}
+              onChange={handleProductFormChange}
               className="w-full px-4 py-2 border rounded"
             />
             <input
               type="number"
               placeholder="Quantity"
+              id="quantity"
+              name="quantity"
+              value={product.quantity}
+              onChange={handleProductFormChange}
               className="w-full px-4 py-2 border rounded"
             />
             <input
-              type="text"
+              type="file"
+              accept="image/*"
               placeholder="Category"
+              id="image"
+              name="image"
+              onChange={handleProductFormChange}
               className="w-full px-4 py-2 border rounded"
             />
+            <select
+              name="status"
+              id="status"
+              className="w-full px-4 py-2 border rounded"
+              value={product.status}
+              onChange={handleProductFormChange}
+            >
+              <option value="in-stock">In-Stock</option>
+              <option value="out-of-stock">Out-of-Stock</option>
+              <option value="discontinued">Discontinued</option>
+            </select>
             <button
               type="submit"
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
