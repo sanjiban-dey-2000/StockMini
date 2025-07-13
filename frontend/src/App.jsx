@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import DashboardLayout from "./components/layout/DashboardLayout";
 import DashboardHome from "./pages/DashboardHome";
 import DashboardErrorPage from "./pages/DashboardErrorPage";
+import ProtectedRoute from "./middleware/ProtectedRoute";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -47,7 +48,11 @@ const App = () => {
     },
     {
       path: "/dashboard",
-      element: <DashboardLayout />,
+      element: (
+        <ProtectedRoute>
+          <DashboardLayout/>
+        </ProtectedRoute>
+      ),
       errorElement: <DashboardErrorPage />,
       children: [
         {
