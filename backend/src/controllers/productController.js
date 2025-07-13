@@ -83,6 +83,23 @@ async function handleAddingProduct(req, res) {
   }
 }
 
+async function handleGettingProducts(req,res){
+  try{
+    const existingProduct=await Product.find({});
+    res.status(200).json({
+      existingProduct,
+      message:"Products fetched successfully",
+    });
+  }catch(error){
+    console.log(error.message);
+    res.status(500).json({
+      message:"Error in Getting products route",
+      error,
+    });
+  }
+}
+
 module.exports = {
   handleAddingProduct,
+  handleGettingProducts,
 };

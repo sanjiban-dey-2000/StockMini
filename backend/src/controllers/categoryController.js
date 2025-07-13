@@ -38,6 +38,23 @@ async function handleAddingCategory(req,res){
     }
 }
 
+async function handleGettingCategory(req,res){
+    try{
+        const existingCategory=await Category.find({});
+        res.status(200).json({
+            existingCategory,
+            message:"Category Fetched successfully",
+        });
+    }catch(error){
+        console.log(error.message);
+        res.status(500).json({
+            error,
+            message:"Error in getting category route",
+        });
+    }
+}
+
 module.exports={
     handleAddingCategory,
+    handleGettingCategory,
 }

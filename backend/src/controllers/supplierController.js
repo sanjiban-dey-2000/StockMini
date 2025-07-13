@@ -41,6 +41,23 @@ async function handleAddingSupplier(req,res){
     }
 }
 
+async function handleGettingSupplier(req,res){
+    try{
+        const existingSupplier=await Supplier.find({});
+        res.status(200).json({
+            existingSupplier,
+            message:"Suppliers fetched successfully",
+        });
+    }catch(error){
+        console.log(error.message);
+        res.status(500).json({
+            error,
+            message:"Error in getting supplier route",
+        });
+    }
+}
+
 module.exports={
     handleAddingSupplier,
+    handleGettingSupplier,
 }

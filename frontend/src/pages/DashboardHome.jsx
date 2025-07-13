@@ -7,10 +7,14 @@ import {
   FiDollarSign,
   FiUsers,
 } from "react-icons/fi";
-import { addCategory, addProduct } from "../services/axiosInstance";
+import { addCategory, addProduct, addSupplier, getCategory, getProduct, getSupplier } from "../services/axiosInstance";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 const DashboardHome = () => {
+  const [productDetails,setProductDetails]=useState([]);
+  const [categoryDetails,setCategoryDetails]=useState([]);
+  const [supplierDetails,setSupplierDetails]=useState([]);
   const [activeForm, setActiveForm] = useState(null);
   const [category, setCategory] = useState({
     categoryName: "",
@@ -26,6 +30,78 @@ const DashboardHome = () => {
     image: null,
     status: "",
   });
+
+  const [supplier,setSupplier]=useState({
+    supplierName:"",
+    companyName:"",
+    email:"",
+    phone:"",
+    address:"",
+    productSupplied:""
+  });
+
+  const handleSupplierFormChange=(e)=>{
+    setSupplier({...supplier,[e.target.name]:e.target.value});
+  }
+
+  const postSupplierData=async(data)=>{
+    try{
+      const res=await addSupplier(data);
+      console.log(res.data);
+      toast.success(res.data.message);
+    }catch(error){
+      console.log(error.message);
+      toast.error("Something went wrong. Please try again");
+    }
+  }
+
+  const handleSupplierFormSubmit=(e)=>{
+    e.preventDefault();
+    postSupplierData(supplier);
+    setSupplier({
+      supplierName:"",
+      companyName:"",
+      email:"",
+      phone:"",
+      address:"",
+      productSupplied:""
+    });
+  }
+
+  const getProductDetails=async()=>{
+    try{
+      const res=await getProduct();
+      console.log(res.data);
+      setProductDetails(res.data.existingProduct);
+    }catch(error){
+      console.log(error.message);
+    }
+  }
+  const getCategoryDetails=async()=>{
+    try{
+      const res=await getCategory();
+      console.log(res.data);
+      setCategoryDetails(res.data.existingCategory);
+    }catch(error){
+      console.log(error.message);
+    }
+  }
+  const getSupplierDetails=async()=>{
+    try{
+      const res=await getSupplier();
+      console.log(res.data);
+      setSupplierDetails(res.data.existingSupplier);
+    }catch(error){
+      console.log(error.message);
+    }
+  }
+
+
+  useEffect(()=>{
+    getProductDetails();
+    getCategoryDetails();
+    getSupplierDetails();
+  },[])
 
   const cards = [
     {
@@ -152,22 +228,90 @@ const DashboardHome = () => {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-10">
-        {cards.map((card, i) => (
           <div
-            key={i}
-            className={`flex justify-between items-center p-6 rounded-2xl shadow-md ${card.color}`}
+            className={`flex justify-between items-center p-6 rounded-2xl shadow-md bg-cyan-100`}
           >
             <div>
               <h2 className="text-2xl font-semibold text-gray-800">
-                {card.title}
+                Categories
               </h2>
               <p className="text-3xl font-bold mt-1 text-gray-700">
-                {card.value}
+                {categoryDetails.length}
               </p>
             </div>
-            <div>{card.icon}</div>
+            <div><FiList className="text-4xl text-cyan-500" /></div>
           </div>
-        ))}
+
+          <div
+            className={`flex justify-between items-center p-6 rounded-2xl shadow-md bg-blue-100`}
+          >
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-800">
+                Products
+              </h2>
+              <p className="text-3xl font-bold mt-1 text-gray-700">
+                {productDetails.length}
+              </p>
+            </div>
+            <div><FiBox className="text-4xl text-blue-600" /></div>
+          </div>
+
+          <div
+            className={`flex justify-between items-center p-6 rounded-2xl shadow-md bg-violet-100`}
+          >
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-800">
+                Suppliers
+              </h2>
+              <p className="text-3xl font-bold mt-1 text-gray-700">
+                {supplierDetails.length}
+              </p>
+            </div>
+            <div><FiTruck className="text-4xl text-violet-600" /></div>
+          </div>
+
+          <div
+            className={`flex justify-between items-center p-6 rounded-2xl shadow-md bg-green-100`}
+          >
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-800">
+                Orders
+              </h2>
+              <p className="text-3xl font-bold mt-1 text-gray-700">
+                0
+              </p>
+            </div>
+            <div><FiShoppingCart className="text-4xl text-green-600" /></div>
+          </div>
+
+          <div
+            className={`flex justify-between items-center p-6 rounded-2xl shadow-md bg-purple-100`}
+          >
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-800">
+                Payments
+              </h2>
+              <p className="text-3xl font-bold mt-1 text-gray-700">
+                0
+              </p>
+            </div>
+            <div><FiDollarSign className="text-4xl text-purple-600" /></div>
+          </div>
+
+          <div
+            className={`flex justify-between items-center p-6 rounded-2xl shadow-md bg-orange-100`}
+          >
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-800">
+                Customers
+              </h2>
+              <p className="text-3xl font-bold mt-1 text-gray-700">
+                0
+              </p>
+            </div>
+            <div><FiUsers className="text-4xl text-orange-500" /></div>
+          </div>
+          
       </div>
 
       {/* Form Toggles */}
@@ -259,6 +403,7 @@ const DashboardHome = () => {
               value={product.status}
               onChange={handleProductFormChange}
             >
+              <option value="">-- Select Status --</option>
               <option value="in-stock">In-Stock</option>
               <option value="out-of-stock">Out-of-Stock</option>
               <option value="discontinued">Discontinued</option>
@@ -308,20 +453,52 @@ const DashboardHome = () => {
       {activeForm === "supplier" && (
         <div className="bg-white p-6 rounded-xl shadow-md mb-6">
           <h2 className="text-2xl font-semibold mb-4">Add New Supplier</h2>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSupplierFormSubmit}>
             <input
               type="text"
+              id="supplierName"
+              name="supplierName"
               placeholder="Supplier Name"
+              value={supplier.supplierName}
+              onChange={handleSupplierFormChange}
+              className="w-full px-4 py-2 border rounded"
+            />
+            <input type="text"
+              id="companyName"
+              name="companyName"
+              placeholder="Company name"
+               value={supplier.companyName}
+              onChange={handleSupplierFormChange}
               className="w-full px-4 py-2 border rounded"
             />
             <input
               type="email"
               placeholder="Email"
+              id="email"
+              name='email'
+               value={supplier.email}
+              onChange={handleSupplierFormChange}
               className="w-full px-4 py-2 border rounded"
             />
             <input
               type="text"
               placeholder="Phone"
+              id="phone"
+              name="phone"
+               value={supplier.phone}
+              onChange={handleSupplierFormChange}
+              className="w-full px-4 py-2 border rounded"
+            />
+            <textarea rows='2' name="address" id="address" className="w-full px-4 py-2 border rounded"
+              value={supplier.address}
+              onChange={handleSupplierFormChange}
+            />
+            <input type="text"
+              id="productSupplied"
+              name="productSupplied"
+              placeholder="Name of the product"
+               value={supplier.productSupplied}
+              onChange={handleSupplierFormChange}
               className="w-full px-4 py-2 border rounded"
             />
             <button

@@ -28,3 +28,15 @@ export const addProduct=async(formData)=>{
 export const addSupplier=async(data)=>{
     return await api.post('/supplier/add-supplier',data);
 };
+
+export const getProduct=async()=>{
+    return await api.get('/product/get-product');
+}
+
+export const getCategory=async()=>{
+    return await api.get('/category/get-category');
+}
+
+export const getSupplier=async()=>{
+    return await api.get('/supplier/get-supplier');
+}
