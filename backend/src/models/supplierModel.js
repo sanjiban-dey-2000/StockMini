@@ -18,11 +18,8 @@ const supplierSchema=new mongoose.Schema({
         required:true,
     },
     address:{
-        street: { type: String },
-        city: { type: String },
-        state: { type: String },
-        postalCode: { type: String },
-        country: { type: String },
+        type:String,
+        required:true,
     },
     productSupplied:{
         type:mongoose.Schema.Types.ObjectId,

@@ -23,10 +23,6 @@ const productSchema=new mongoose.Schema({
         required:true,
         min:0,
     },
-    supplier:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Supplier",
-    },
     productImage:{
         type:String,
     },

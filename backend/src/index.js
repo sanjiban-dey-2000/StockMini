@@ -7,8 +7,8 @@ const cookieParser=require('cookie-parser');
 const {connect}=require('./lib/dbConnect');
 const userRouter=require('./routes/authRoutes');
 const categoryRouter=require('./routes/categoryRoutes');
-
-
+const productRoute=require('./routes/productRoute');
+const supplierRoute=require('./routes/supplierRoute');
 
 const app=express();
 const PORT=process.env.PORT || 5001;
@@ -34,6 +34,8 @@ app.use('/assets',express.static(path.resolve('public/assets')));
 
 app.use('/api/user',userRouter);
 app.use('/api/category',categoryRouter);
+app.use('/api/supplier',supplierRoute);
+app.use('/api/product',productRoute);
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port no ${PORT}`);
