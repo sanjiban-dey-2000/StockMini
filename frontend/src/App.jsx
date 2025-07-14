@@ -12,6 +12,7 @@ import DashboardLayout from "./components/layout/DashboardLayout";
 import DashboardHome from "./pages/DashboardHome";
 import DashboardErrorPage from "./pages/DashboardErrorPage";
 import ProtectedRoute from "./middleware/ProtectedRoute";
+import ProductPage from "./pages/ProductPage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -63,6 +64,10 @@ const App = () => {
           path: "*", // catches any unmatched nested dashboard route
           element: <DashboardErrorPage />,
         },
+        {
+          path:"/dashboard/products",
+          element: <ProductPage/>,
+        }
       ],
     },
   ]);

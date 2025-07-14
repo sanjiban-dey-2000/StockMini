@@ -101,7 +101,7 @@ const DashboardHome = () => {
     getProductDetails();
     getCategoryDetails();
     getSupplierDetails();
-  },[])
+  },[product,category,supplier]);
 
   const handleCategoryFormChange = (e) => {
     const { name, value, files } = e.target;
@@ -349,7 +349,6 @@ const DashboardHome = () => {
             />
             <input
               type="file"
-              accept="image/*"
               placeholder="Image"
               id="image"
               name="image"

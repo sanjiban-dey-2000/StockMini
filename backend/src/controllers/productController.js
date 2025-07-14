@@ -57,7 +57,7 @@ async function handleAddingProduct(req, res) {
       });
     }
 
-    const imagePath = req.file.path;
+    const imagePath = `/assets/${req.file.filename}`;
 
     // Create new product
     const newProduct = await Product.create({
@@ -99,7 +99,68 @@ async function handleGettingProducts(req,res){
   }
 }
 
+async function handleUpdateProduct(req,res){
+  try{
+    const {id}=req.params;
+    const {productName,description,price,quantity,status}=req.body;
+
+    const updatedProduct=await Product.findByIdAndUpdate(id,
+      {
+        productName,
+        description,
+        price,
+        quantityInStock:quantity,
+        status,
+      }
+    );
+
+    if(!updatedProduct){
+      return res.status(404).json({
+        message:"Product not found",
+      });
+    }
+
+    res.status(200).json({
+      message:"Product updated successfully",
+      product:updatedProduct,
+    });
+  }catch(error){
+    console.log(error.message);
+    res.status(500).json({
+      error,
+      message:"Error in updating products route",
+    });
+  }
+}
+
+async function handleDeleteProduct(req,res){
+  try{
+    const {id}=req.params;
+
+    const product=await Product.findByIdAndDelete(id);
+
+    if(!product){
+      return res.status(404).json({
+        message:"Product not found",
+      });
+    }
+
+    res.status(200).json({
+      message:"Product deleted successfully",
+    });
+
+  }catch(error){
+    console.log(error.message);
+    res.status(500).json({
+      error,
+      message:"Error in deleting product route",
+    });
+  }
+}
+
 module.exports = {
   handleAddingProduct,
   handleGettingProducts,
+  handleUpdateProduct,
+  handleDeleteProduct,
 };

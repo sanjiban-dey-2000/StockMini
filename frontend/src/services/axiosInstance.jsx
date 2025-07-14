@@ -44,3 +44,11 @@ export const getSupplier=async()=>{
 export const getCurrentUser=async()=>{
     return await api.get('/user/verify');
 }
+
+export const updateProduct=async(id,data)=>{
+    return await api.put(`/product/update/${id}`,data);
+}
+
+export const deleteProduct=async(id)=>{
+    return await api.delete(`/product/delete/${id}`);
+}
