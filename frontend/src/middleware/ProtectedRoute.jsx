@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import LoadingPage from "../pages/LandingPage";
 
 const ProtectedRoute = ({ children }) => {
   const { user, login } = useAuth();
@@ -25,7 +26,7 @@ const ProtectedRoute = ({ children }) => {
     else setLoading(false);
   }, [user, login]);
 
-  if (loading) return <p className="text-center mt-10">Checking authentication...</p>;
+  if (loading) return <LoadingPage/>;
   if (!user) return <Navigate to="/login" replace />;
 
   return children;

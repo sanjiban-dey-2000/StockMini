@@ -40,3 +40,7 @@ export const getCategory=async()=>{
 export const getSupplier=async()=>{
     return await api.get('/supplier/get-supplier');
 }
+
+export const getCurrentUser=async()=>{
+    return await api.get('/user/verify');
+}

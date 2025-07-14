@@ -3,11 +3,6 @@ const User = require('../models/userModel');
 
 const protectRoute = async (req, res, next) => {
     try {
-        console.log("DEBUG: req.body =", req.body);
-        console.log("DEBUG: req.file =", req.file);
-        console.log("DEBUG: req.user =", req.user);
-
-
         const token = req.cookies.jwt;
 
         if (!token) {

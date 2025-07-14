@@ -103,45 +103,6 @@ const DashboardHome = () => {
     getSupplierDetails();
   },[])
 
-  const cards = [
-    {
-      title: "Categories",
-      value: 12,
-      icon: <FiList className="text-4xl text-cyan-500" />,
-      color: "bg-cyan-100",
-    },
-    {
-      title: "Products",
-      value: 128,
-      icon: <FiBox className="text-4xl text-blue-600" />,
-      color: "bg-blue-100",
-    },
-    {
-      title: "Suppliers",
-      value: 9,
-      icon: <FiTruck className="text-4xl text-violet-600" />,
-      color: "bg-violet-100",
-    },
-    {
-      title: "Orders",
-      value: 354,
-      icon: <FiShoppingCart className="text-4xl text-green-600" />,
-      color: "bg-green-100",
-    },
-    {
-      title: "Payments",
-      value: "₹75,400",
-      icon: <FiDollarSign className="text-4xl text-purple-600" />,
-      color: "bg-purple-100",
-    },
-    {
-      title: "Customers",
-      value: 214,
-      icon: <FiUsers className="text-4xl text-orange-500" />,
-      color: "bg-orange-100",
-    },
-  ];
-
   const handleCategoryFormChange = (e) => {
     const { name, value, files } = e.target;
     setCategory({ ...category, [name]: files ? files[0] : value });
@@ -350,15 +311,14 @@ const DashboardHome = () => {
               placeholder="Product Name"
               className="w-full px-4 py-2 border rounded"
             />
-            <input
-              type="text"
-              id="categoryName"
-              name="categoryName"
-              value={product.categoryName}
-              onChange={handleProductFormChange}
-              placeholder="Category Name"
-              className="w-full px-4 py-2 border rounded"
-            />
+            <select name="categoryName" id="categoryName" value={product.categoryName} onChange={handleProductFormChange} className="w-full px-4 py-2 border rounded">
+              <option value="">-- Select Category --</option>
+              {
+                categoryDetails.map((item,index)=>(
+                  <option key={item.categoryName} value={item.categoryName}>{item.categoryName}</option>
+                ))
+              }
+            </select>
             <textarea
               type="text"
               rows="2"
@@ -390,7 +350,7 @@ const DashboardHome = () => {
             <input
               type="file"
               accept="image/*"
-              placeholder="Category"
+              placeholder="Image"
               id="image"
               name="image"
               onChange={handleProductFormChange}
