@@ -1,5 +1,5 @@
 const express=require('express');
-const { handleUserRegistration, handleUserLogin } = require('../controllers/authController');
+const { handleUserRegistration, handleUserLogin, handleUseLogout } = require('../controllers/authController');
 const {protectRoute}=require('../middlewares/protectRoute');
 const router=express.Router();
 
@@ -11,5 +11,8 @@ router.get('/verify',protectRoute,(req,res)=>{
         user:req.user,
     });
 })
+
+router.post('/logout',handleUseLogout);
+
 
 module.exports=router;

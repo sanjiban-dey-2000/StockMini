@@ -99,7 +99,26 @@ async function handleUserLogin(req,res){
     }
 }
 
+async function handleUseLogout(req,res){
+    try{
+        res.clearCookie('jwt',{
+            httpOnly:true,
+            secure:true,
+            sameSite:true,
+        });
+        res.status(200).json({
+            message:"Logged out successfully",
+        });
+    }catch(error){
+        console.log(error.message);
+        res.status(500).json({
+            message:"Error in logout route",
+        });
+    }
+}
+
 module.exports={
     handleUserRegistration,
     handleUserLogin,
+    handleUseLogout,
 }
