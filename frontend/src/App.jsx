@@ -13,6 +13,7 @@ import DashboardHome from "./pages/DashboardHome";
 import DashboardErrorPage from "./pages/DashboardErrorPage";
 import ProtectedRoute from "./middleware/ProtectedRoute";
 import ProductPage from "./pages/ProductPage";
+import CategoryPage from "./pages/CategoryPage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -67,6 +68,10 @@ const App = () => {
         {
           path:"/dashboard/products",
           element: <ProductPage/>,
+        },
+        {
+          path:"/dashboard/categories",
+          element: <CategoryPage/>
         }
       ],
     },

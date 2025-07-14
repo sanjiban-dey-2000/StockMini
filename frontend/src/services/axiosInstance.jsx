@@ -14,11 +14,7 @@ export const login=async(data)=>{
 }
 
 export const addCategory=async(formData)=>{
-    return await api.post('/category/add-category',formData,{
-        headers:{
-            "Content-Type": "multipart/form-data",
-        }
-    });
+    return await api.post('/category/add-category',formData);
 };
 
 export const addProduct=async(formData)=>{
@@ -51,4 +47,12 @@ export const updateProduct=async(id,data)=>{
 
 export const deleteProduct=async(id)=>{
     return await api.delete(`/product/delete/${id}`);
+}
+
+export const deleteCategory=async(id)=>{
+    return await api.delete(`/category/delete/${id}`);
+}
+
+export const updateCategory=async(id,data)=>{
+    return await api.put(`/category/update/${id}`,data);
 }
