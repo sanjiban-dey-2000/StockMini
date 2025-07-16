@@ -14,8 +14,11 @@ import {
   FiX,
 } from "react-icons/fi";
 
+import {useAuth} from "../context/AuthContext";
+
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const {user,logout}=useAuth();
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -137,10 +140,7 @@ const Sidebar = () => {
             </li>
             <li>
               <button
-                onClick={() => {
-                  // useAuth().logout();
-                  setIsOpen(false);
-                }}
+                onClick={logout}
                 className="flex items-center gap-2 text-left w-full text-white text-[18px] font-medium hover:text-slate-900 hover:bg-gray-100 rounded px-4 py-2 transition-all"
               >
                 <FiLogOut />

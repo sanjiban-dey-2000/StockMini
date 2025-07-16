@@ -56,3 +56,7 @@ export const deleteCategory=async(id)=>{
 export const updateCategory=async(id,data)=>{
     return await api.put(`/category/update/${id}`,data);
 }
+
+export const userLogout=async()=>{
+    return await api.post('/user/logout');
+}
