@@ -57,7 +57,60 @@ async function handleGettingSupplier(req,res){
     }
 }
 
+async function handleSupplierUpdate(req,res){
+    try{
+        const {id}=req.params;
+        const {supplierName,companyName,email,phone,address,}=req.body;
+
+        const supplier=await Supplier.findByIdAndUpdate(id,{
+            supplierName,
+            companyName,
+            email,
+            phone,
+            address
+        });
+        if(!supplier){
+            return res.status(404).json({
+                message:"Supplier not found",
+            });
+        }
+
+        res.status(200).json({
+            message:'Supplier updated successfully',
+        })
+    }catch(error){
+        console.log(error.message);
+        res.status(500).json({
+            message:"Error in updating supplier route",
+        });
+    }
+}
+
+async function handleSupplierDelete(req,res){
+    try{
+        const {id}=req.params;
+
+        const supplier=await Supplier.findByIdAndDelete(id);
+        if(!supplier){
+            return  res.status(404).json({
+                        message:"Supplier not found",
+                    });
+        }
+
+        res.status(200).json({
+            message:"Supplier deleted successfully",
+        });
+    }catch(error){
+        console.log(error.message);
+        res.status(500).josn({
+            message:"Error in deleting supplier route",
+        });
+    }
+}
+
 module.exports={
     handleAddingSupplier,
     handleGettingSupplier,
+    handleSupplierUpdate,
+    handleSupplierDelete,
 }

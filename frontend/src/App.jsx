@@ -14,6 +14,7 @@ import DashboardErrorPage from "./pages/DashboardErrorPage";
 import ProtectedRoute from "./middleware/ProtectedRoute";
 import ProductPage from "./pages/ProductPage";
 import CategoryPage from "./pages/CategoryPage";
+import SupplierPage from "./pages/SupplierPage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -72,6 +73,10 @@ const App = () => {
         {
           path:"/dashboard/categories",
           element: <CategoryPage/>
+        },
+        {
+          path:"/dashboard/suppliers",
+          element: <SupplierPage/>,
         }
       ],
     },

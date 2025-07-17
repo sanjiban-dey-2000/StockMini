@@ -60,3 +60,11 @@ export const updateCategory=async(id,data)=>{
 export const userLogout=async()=>{
     return await api.post('/user/logout');
 }
+
+export const updateSupplier=async(id,data)=>{
+    return await api.put(`/supplier/update/${id}`,data);
+}
+
+export const deleteSupplier=async(id)=>{
+    return await api.delete(`/supplier/delete/${id}`);
+}
