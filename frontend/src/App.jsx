@@ -15,6 +15,9 @@ import ProtectedRoute from "./middleware/ProtectedRoute";
 import ProductPage from "./pages/ProductPage";
 import CategoryPage from "./pages/CategoryPage";
 import SupplierPage from "./pages/SupplierPage";
+import PaymentPage from "./pages/PaymentPage";
+import CustomerPage from "./pages/CustomerPage";
+import OrderPage from "./pages/OrderPage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -77,6 +80,16 @@ const App = () => {
         {
           path:"/dashboard/suppliers",
           element: <SupplierPage/>,
+        },{
+          path:"/dashboard/payments",
+          element: <PaymentPage/>,
+        },{
+          path:"/dashboard/customers",
+          element: <CustomerPage/>
+        },
+        {
+          path:"/dashboard/orders",
+          element: <OrderPage/>
         }
       ],
     },
